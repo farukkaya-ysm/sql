@@ -5,7 +5,7 @@ CREATE OR REPLACE FUNCTION public.f123(id integer)
 AS $function$
 declare
 begin
-return id+4;
+return id+6;
 end;
 $function$
 

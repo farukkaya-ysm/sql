@@ -14,11 +14,11 @@ begin
           r.objid,
           r.object_type,
           r.schema_name,
-          (SELECT proname FROM pg_proc WHERE oid = r.objid),
+          case when r.object_type = 'materialized view' then replace(r.object_identity, 'public.', '') else (SELECT proname FROM pg_proc WHERE oid = r.objid) end,
           r.object_identity,
           r.in_extension,
           now(),
-          pg_get_functiondef(r.objid)
+          case when r.object_type = 'materialized view' then pg_get_viewdef(r.objid) else pg_get_functiondef(r.objid) end
     );
   end LOOP;
 end;
